@@ -5,17 +5,17 @@
 FROM phusion/baseimage
 MAINTAINER Dane Powell
 
-# Set correct environment variables.
+# Set up environment
 ENV HOME /root
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
+RUN echo %sudo	ALL=NOPASSWD: ALL >> /etc/sudoers
 
 # Install packages.
 RUN apt-get update
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 mysql-server php5-mysql libapache2-mod-php5 php5-gd
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y php5-curl
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y pwgen
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y upgrade
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 mysql-server php5-mysql libapache2-mod-php5 php5-gd php5-curl pwgen
 
 # Clean up APT when done.
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
